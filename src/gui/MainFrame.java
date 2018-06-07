@@ -75,7 +75,7 @@ public class MainFrame extends JFrame{
         //DEFINIMOS EL NOMBRE DEL USUARIO POR AHORA MANUALITO :(
         
         pnlPrincipal = new PanelChat();
-        recibidor = new Recibidor(socket, pnlPrincipal.getTxtShowChat());
+        recibidor = new Recibidor(socket, pnlPrincipal.getTxtShowChat(), this);
         //pnlPrincipal.setBackground(Color.yellow);
         pnlPrincipal.setListener(new btnEnviarListener() {
             @Override
@@ -111,5 +111,13 @@ public class MainFrame extends JFrame{
         super.setVisible(true);
         }
         
+    }
+
+    public PanelChat getPnlPrincipal() {
+        return pnlPrincipal;
+    }
+
+    public void setPnlPrincipal(PanelChat pnlPrincipal) {
+        this.pnlPrincipal = pnlPrincipal;
     }
 }

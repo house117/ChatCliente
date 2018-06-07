@@ -5,6 +5,8 @@
  */
 package objects;
 
+import gui.MainFrame;
+import java.awt.Point;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -22,9 +24,11 @@ public class Recibidor extends Thread{
     private Socket socket;
     private DataInputStream reader;
     private JTextArea txtChat;
-    public Recibidor(Socket socket, JTextArea txtChat) throws IOException{
+    MainFrame parent;
+    public Recibidor(Socket socket, JTextArea txtChat, MainFrame parent) throws IOException{
         this.socket = socket;
         this.txtChat = txtChat;
+        this.parent = parent;
         reader = new DataInputStream(socket.getInputStream());
     }
 
@@ -37,6 +41,9 @@ public class Recibidor extends Thread{
                 strFileContents = reader.readUTF();
                 if(strFileContents != null){
                     txtChat.append(String.format("%s\n", strFileContents));
+                    parent.getPnlPrincipal().getScrollChat().getViewport().setViewPosition(
+                    new Point(0, txtChat.getDocument().getLength()));
+                    
                 }
                 
             } catch (IOException ex) {

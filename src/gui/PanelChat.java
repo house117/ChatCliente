@@ -16,12 +16,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.net.Socket;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.BevelBorder;
 
 /**
@@ -56,14 +58,18 @@ public class PanelChat extends JPanel{
         btnSendMsg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+
                 getListener().onClick(getTxtEditText().getText());
                 txtEditText.setText("");
             }
         });
-        txtEditText = new JTextArea();
-        txtEditText.setPreferredSize(new Dimension(350, 80));
+        txtEditText = new JTextArea(4, 30);
+        txtEditText.setLineWrap(true);
+        txtEditText.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        //txtEditText.setPreferredSize(new Dimension(350, 80));
         txtEditText.setBorder(new BevelBorder(BevelBorder.LOWERED));
         scrollEdt = new JScrollPane(txtEditText);
+        scrollEdt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         txtEditText.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent ke) {
@@ -83,16 +89,18 @@ public class PanelChat extends JPanel{
 
             
         });
-        txtShowChat = new JTextArea();
-        txtShowChat.setPreferredSize(new Dimension(450, 340));
+        txtShowChat = new JTextArea(22, 40);
+        txtShowChat.setLineWrap(true);
+        txtShowChat.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        //txtShowChat.setPreferredSize(new Dimension(420, 340));
         txtShowChat.setEditable(false);
-        scrollChat = new JScrollPane(txtShowChat);
+        scrollChat = new JScrollPane(txtShowChat, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
         //agregamos componentes a paneles
-        pnlChat.add(txtShowChat);
-        pnlEdit.add(txtEditText);
+        pnlChat.add(scrollChat);
+        pnlEdit.add(scrollEdt);
         pnlEdit.add(btnSendMsg);
-        super.add(pnlChat);
+        super.add(scrollChat);
         super.add(pnlEdit);
     }
 
@@ -180,6 +188,20 @@ public class PanelChat extends JPanel{
      */
     public void setTxtShowChat(JTextArea txtShowChat) {
         this.txtShowChat = txtShowChat;
+    }
+
+    /**
+     * @return the scrollChat
+     */
+    public JScrollPane getScrollChat() {
+        return scrollChat;
+    }
+
+    /**
+     * @param scrollChat the scrollChat to set
+     */
+    public void setScrollChat(JScrollPane scrollChat) {
+        this.scrollChat = scrollChat;
     }
     
 }
